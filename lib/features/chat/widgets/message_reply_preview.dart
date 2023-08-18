@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:watinsup/common/providers/message_reply_providers.dart';
+import 'package:watinsup/features/chat/widgets/display_data.dart';
 
 class MessageReplyPreview extends ConsumerWidget {
   const MessageReplyPreview({super.key});
@@ -14,6 +15,13 @@ class MessageReplyPreview extends ConsumerWidget {
     final messageReply = ref.watch(messageReplyProvider);
     return Container(
       width: 350,
+      decoration: const BoxDecoration(
+        color: Colors.transparent,
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(12),
+          topRight: Radius.circular(12),
+        ),
+      ),
       padding: const EdgeInsets.all(8.0),
       child: Column(
         children: [
@@ -32,14 +40,17 @@ class MessageReplyPreview extends ConsumerWidget {
                   Icons.close,
                   size: 16,
                 ),
-                onTap: () {},
+                onTap: () => cancelReply(ref),
               ),
             ],
           ),
           const SizedBox(
             height: 8,
           ),
-          Text(messageReply.message),
+          DisplayDataType(
+            message: messageReply.message,
+            type: messageReply.messageEnum,
+          ),
         ],
       ),
     );

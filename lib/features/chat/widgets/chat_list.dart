@@ -2,6 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:watinsup/common/enums/message_enums.dart';
+import 'package:watinsup/common/providers/message_reply_providers.dart';
 import 'package:watinsup/common/widgets/loader.dart';
 import 'package:watinsup/features/chat/controller/chat_controller.dart';
 import 'package:watinsup/features/chat/widgets/message_sender_card.dart';
@@ -20,6 +22,21 @@ class ChatList extends ConsumerStatefulWidget {
 
 class _ChatListState extends ConsumerState<ChatList> {
   final messageController = ScrollController();
+
+  void onMessageSwipe(
+    String message,
+    bool isMe,
+    MessageEnum messageEnum,
+  ) {
+    ref.read(messageReplyProvider.notifier).update(
+          (state) => MessageReply(
+            message,
+            isMe,
+            messageEnum,
+          ),
+        );
+  }
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<List<Message>>(
@@ -46,7 +63,11 @@ class _ChatListState extends ConsumerState<ChatList> {
                   message: messageData.text,
                   date: formattedTimeStamp(messageData.timeSent),
                   type: messageData.type,
-                  onLeftSwipe: () {},
+                  onLeftSwipe: () => onMessageSwipe(
+                    messageData.text,
+                    true,
+                    messageData.type,
+                  ),
                   repliedMessageType: messageData.repliedMessageType,
                   repliedText: messageData.repliedMessage,
                   username: messageData.repliedTo,
@@ -56,6 +77,14 @@ class _ChatListState extends ConsumerState<ChatList> {
                 message: messageData.text,
                 date: formattedTimeStamp(messageData.timeSent),
                 type: messageData.type,
+                onRightSwipe: () => onMessageSwipe(
+                  messageData.text,
+                  false,
+                  messageData.type,
+                ),
+                repliedMessageType: messageData.repliedMessageType,
+                repliedText: messageData.repliedMessage,
+                username: messageData.repliedTo,
               );
             },
           );
