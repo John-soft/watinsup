@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "111682220401",
+    "project_id": "watin-sup",
+    "storage_bucket": "watin-sup.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:111682220401:android:49d4fa62447d58d1c906d0",
+        "android_client_info": {
+          "package_name": "com.example.watinsup"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "111682220401-to424ugl2b0j4ti66386n10srmqo3s9v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyARHYNt2WD_7vajCV30RFFmX9ScXadg0u4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "111682220401-to424ugl2b0j4ti66386n10srmqo3s9v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
