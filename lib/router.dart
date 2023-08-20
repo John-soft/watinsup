@@ -8,6 +8,8 @@ import 'package:watinsup/features/auth/screens/user_information_screen.dart';
 import 'package:watinsup/features/select_contact/screens/select_contacts_screen.dart';
 import 'package:watinsup/features/chat/screen/mobile_chat_screen.dart';
 import 'package:watinsup/features/status/screen/confirm_status_screen.dart';
+import 'package:watinsup/features/status/screen/status_screen.dart';
+import 'package:watinsup/models/status_model.dart';
 
 Route<dynamic> generateRoute(RouteSettings settings) {
   switch (settings.name) {
@@ -41,6 +43,13 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case SelectContactsScreen.routeName:
       return MaterialPageRoute(
         builder: (context) => const SelectContactsScreen(),
+      );
+    case StatusScreen.routeName:
+      final status = settings.arguments as Status;
+      return MaterialPageRoute(
+        builder: (context) => StatusScreen(
+          status: status,
+        ),
       );
 
     case ConfirmStatusScreen.routeName:

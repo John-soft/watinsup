@@ -73,10 +73,6 @@ class StatusRepository {
       var statusSnapshots = await firestore
           .collection('status')
           .where('uid', isEqualTo: auth.currentUser!.uid)
-          .where('createdAt',
-              isLessThan: DateTime.now().subtract(const Duration(
-                hours: 24,
-              )))
           .get();
 
       if (statusSnapshots.docs.isNotEmpty) {
