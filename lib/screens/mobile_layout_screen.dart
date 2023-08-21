@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:watinsup/colors.dart';
 import 'package:watinsup/common/utils/utils.dart';
 import 'package:watinsup/features/auth/controller/auth_controller.dart';
+import 'package:watinsup/features/group/screens/create_group_screen.dart';
 import 'package:watinsup/features/select_contact/screens/select_contacts_screen.dart';
 import 'package:watinsup/features/status/screen/confirm_status_screen.dart';
 import 'package:watinsup/features/status/screen/status_contracts_screen.dart';
@@ -74,10 +75,22 @@ class _MobileLayoutScreenState extends ConsumerState<MobileLayoutScreen>
               icon: const Icon(Icons.search, color: Colors.grey),
               onPressed: () {},
             ),
-            IconButton(
-              icon: const Icon(Icons.more_vert, color: Colors.grey),
-              onPressed: () {},
-            ),
+            PopupMenuButton(
+                icon: const Icon(
+                  Icons.more_vert,
+                  color: Colors.grey,
+                ),
+                itemBuilder: (context) {
+                  return [
+                    PopupMenuItem(
+                      child: const Text('Create Group'),
+                      onTap: () => Future(() => Navigator.pushNamed(
+                            context,
+                            CreateGroupScreen.routeName,
+                          )),
+                    ),
+                  ];
+                })
           ],
           bottom: TabBar(
             controller: tabController,

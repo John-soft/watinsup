@@ -5,6 +5,7 @@ import 'package:watinsup/common/widgets/error_screen.dart';
 import 'package:watinsup/features/auth/screens/login_screen.dart';
 import 'package:watinsup/features/auth/screens/otp_Screen.dart';
 import 'package:watinsup/features/auth/screens/user_information_screen.dart';
+import 'package:watinsup/features/group/screens/create_group_screen.dart';
 import 'package:watinsup/features/select_contact/screens/select_contacts_screen.dart';
 import 'package:watinsup/features/chat/screen/mobile_chat_screen.dart';
 import 'package:watinsup/features/status/screen/confirm_status_screen.dart';
@@ -27,6 +28,10 @@ Route<dynamic> generateRoute(RouteSettings settings) {
     case UserInformationScreen.routeName:
       return MaterialPageRoute(
         builder: (context) => const UserInformationScreen(),
+      );
+    case CreateGroupScreen.routeName:
+      return MaterialPageRoute(
+        builder: (context) => const CreateGroupScreen(),
       );
 
     case MobileChatScreen.routeName:
