@@ -1,25 +1,39 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:watinsup/colors.dart';
 import 'package:watinsup/common/utils/utils.dart';
+import 'package:watinsup/features/group/controller/group_controller.dart';
 import 'package:watinsup/features/group/widgets/select_contact_groups.dart';
 
-class CreateGroupScreen extends StatefulWidget {
+class CreateGroupScreen extends ConsumerStatefulWidget {
   static const String routeName = '/create-group';
   const CreateGroupScreen({super.key});
 
   @override
-  State<CreateGroupScreen> createState() => _CreateGroupScreenState();
+  ConsumerState<CreateGroupScreen> createState() => _CreateGroupScreenState();
 }
 
-class _CreateGroupScreenState extends State<CreateGroupScreen> {
+class _CreateGroupScreenState extends ConsumerState<CreateGroupScreen> {
   File? image;
   final groupNameController = TextEditingController();
 
   void selectImage() async {
     image = await pickImageFromGallery(context);
     setState(() {});
+  }
+
+  void createGroup() {
+    if (groupNameController.text.trim().isNotEmpty && image != null) {
+      ref.read(groupControllerProvider).createGroup(
+          context,
+          groupNameController.text.trim(),
+          image!,
+          ref.read(selectedGroupContacts));
+      ref.read(selectedGroupContacts.notifier).update((state) => []);
+      Navigator.pop(context);
+    }
   }
 
   @override
@@ -88,7 +102,7 @@ class _CreateGroupScreenState extends State<CreateGroupScreen> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: createGroup,
         backgroundColor: tabColor,
         child: const Icon(
           Icons.done,

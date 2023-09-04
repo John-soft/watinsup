@@ -5,6 +5,8 @@ import 'package:watinsup/common/widgets/error_screen.dart';
 import 'package:watinsup/common/widgets/loader.dart';
 import 'package:watinsup/features/select_contact/controller/select_contact_controller.dart';
 
+final selectedGroupContacts = StateProvider<List<Contact>>((ref) => []);
+
 class SelectContactGroups extends ConsumerStatefulWidget {
   const SelectContactGroups({super.key});
 
@@ -22,7 +24,11 @@ class _SelectContactGroupsState extends ConsumerState<SelectContactGroups> {
     } else {
       selectedContactIndex.add(index);
     }
-    setState(() {});
+    setState(() {
+      ref
+          .read(selectedGroupContacts.notifier)
+          .update((state) => [...state, contact]);
+    });
   }
 
   @override
