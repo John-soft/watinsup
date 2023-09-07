@@ -15,10 +15,12 @@ class MobileChatScreen extends ConsumerWidget {
 
   final String name;
   final String uid;
+  final bool isGroupChat;
   const MobileChatScreen({
     Key? key,
     required this.name,
     required this.uid,
+    required this.isGroupChat,
   }) : super(key: key);
 
   @override
@@ -26,46 +28,48 @@ class MobileChatScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: appBarColor,
-        title: StreamBuilder<UserModel>(
-            stream: ref.read(authControllerProvider).getUserDataById(uid),
-            builder: (context, snapshot) {
-              final isOnline = snapshot.data!.isOnline;
-              Color containerColor = isOnline ? Colors.green : Colors.grey;
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Loader();
-              }
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    name,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  Row(
+        title: isGroupChat
+            ? Text(name)
+            : StreamBuilder<UserModel>(
+                stream: ref.read(authControllerProvider).getUserDataById(uid),
+                builder: (context, snapshot) {
+                  final isOnline = snapshot.data!.isOnline;
+                  Color containerColor = isOnline ? Colors.green : Colors.grey;
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Loader();
+                  }
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Container(
-                        height: 8,
-                        width: 8,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: containerColor,
+                      Text(
+                        name,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
-                      const SizedBox(
-                        width: 3,
-                      ),
-                      Text(
-                        isOnline ? 'online' : 'offline',
-                        style: const TextStyle(fontSize: 12),
-                      ),
+                      Row(
+                        children: [
+                          Container(
+                            height: 8,
+                            width: 8,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: containerColor,
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 3,
+                          ),
+                          Text(
+                            isOnline ? 'online' : 'offline',
+                            style: const TextStyle(fontSize: 12),
+                          ),
+                        ],
+                      )
                     ],
-                  )
-                ],
-              );
-            }),
+                  );
+                }),
         centerTitle: false,
         actions: [
           IconButton(
@@ -87,10 +91,12 @@ class MobileChatScreen extends ConsumerWidget {
           Expanded(
             child: ChatList(
               receiverUserId: uid,
+              isGroupChat: isGroupChat,
             ),
           ),
           BottomChatField(
             receiverUserId: uid,
+            isGroupChat: isGroupChat,
           ),
         ],
       ),

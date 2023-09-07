@@ -12,9 +12,14 @@ import 'package:watinsup/models/message.dart';
 import 'package:watinsup/utils/time_format.dart';
 
 class ChatList extends ConsumerStatefulWidget {
-  const ChatList({Key? key, required this.receiverUserId}) : super(key: key);
+  const ChatList({
+    Key? key,
+    required this.receiverUserId,
+    required this.isGroupChat,
+  }) : super(key: key);
 
   final String receiverUserId;
+  final bool isGroupChat;
 
   @override
   ConsumerState<ChatList> createState() => _ChatListState();
@@ -40,8 +45,13 @@ class _ChatListState extends ConsumerState<ChatList> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<List<Message>>(
-        stream:
-            ref.watch(chatControllerProvider).chatStream(widget.receiverUserId),
+        stream: widget.isGroupChat
+            ? ref
+                .watch(chatControllerProvider)
+                .groupChatStream(widget.receiverUserId)
+            : ref
+                .watch(chatControllerProvider)
+                .chatStream(widget.receiverUserId),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Loader();

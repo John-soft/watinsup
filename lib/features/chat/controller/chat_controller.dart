@@ -9,6 +9,7 @@ import 'package:watinsup/features/auth/controller/auth_controller.dart';
 
 import 'package:watinsup/features/chat/repository/chat_repository.dart';
 import 'package:watinsup/models/chat_contact.dart';
+import 'package:watinsup/models/group.dart';
 import 'package:watinsup/models/message.dart';
 
 final chatControllerProvider = Provider((ref) {
@@ -28,14 +29,23 @@ class ChatController {
     return chatRepository.getContact();
   }
 
+  Stream<List<Group>> chatGroups() {
+    return chatRepository.getChatGroups();
+  }
+
   Stream<List<Message>> chatStream(String receiverUserId) {
     return chatRepository.getChatStream(receiverUserId);
+  }
+
+  Stream<List<Message>> groupChatStream(String groupId) {
+    return chatRepository.getGroupChatStream(groupId);
   }
 
   void sendTextMessage(
     BuildContext context,
     String text,
     String receiverUserId,
+    bool isGroupChat,
   ) {
     final messageReply = ref.read(messageReplyProvider);
     ref.read(userDataProvider).whenData(
@@ -45,6 +55,7 @@ class ChatController {
             receiverUserId: receiverUserId,
             senderUser: value!,
             messageReply: messageReply,
+            isGroupChat: isGroupChat,
           ),
         );
     ref.read(messageReplyProvider.notifier).update((state) => null);
@@ -55,6 +66,7 @@ class ChatController {
     File file,
     String receiverUserId,
     MessageEnum messageEnum,
+    bool isGroupChat,
   ) {
     final messageReply = ref.read(messageReplyProvider);
     ref
@@ -67,6 +79,7 @@ class ChatController {
               ref: ref,
               messageEnum: messageEnum,
               messageReply: messageReply,
+              isGroupChat: isGroupChat,
             ));
     ref.read(messageReplyProvider.notifier).update((state) => null);
   }
@@ -75,6 +88,7 @@ class ChatController {
     BuildContext context,
     String gifUrl,
     String receiverUserId,
+    bool isGroupChat,
   ) {
     int gifUrlPathIndex = gifUrl.lastIndexOf('-') + 1;
     String gifUrlPath = gifUrl.substring(gifUrlPathIndex);
@@ -89,6 +103,7 @@ class ChatController {
             receiverUserId: receiverUserId,
             senderUser: value!,
             messageReply: messageReply,
+            isGroupChat: isGroupChat,
           ),
         );
     ref.read(messageReplyProvider.notifier).update((state) => null);

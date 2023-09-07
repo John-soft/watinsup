@@ -16,10 +16,12 @@ import 'package:watinsup/features/chat/widgets/message_reply_preview.dart';
 class BottomChatField extends ConsumerStatefulWidget {
   const BottomChatField({
     required this.receiverUserId,
+    required this.isGroupChat,
     super.key,
   });
 
   final String receiverUserId;
+  final bool isGroupChat;
 
   @override
   ConsumerState<BottomChatField> createState() => _BottomChatFieldState();
@@ -60,6 +62,7 @@ class _BottomChatFieldState extends ConsumerState<BottomChatField> {
             context,
             _messageController.text.trim(),
             widget.receiverUserId,
+            widget.isGroupChat,
           );
 
       setState(() {
@@ -95,6 +98,7 @@ class _BottomChatFieldState extends ConsumerState<BottomChatField> {
           file,
           widget.receiverUserId,
           messageEnum,
+          widget.isGroupChat,
         );
   }
 
@@ -125,6 +129,7 @@ class _BottomChatFieldState extends ConsumerState<BottomChatField> {
             context,
             gif.url,
             widget.receiverUserId,
+            widget.isGroupChat,
           );
     }
   }
