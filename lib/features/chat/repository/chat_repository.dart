@@ -113,7 +113,7 @@ class ChatRepository {
     });
   }
 
-  _saveDataToContactsSubCollection(
+  void _saveDataToContactsSubCollection(
     UserModel sendUserData,
     UserModel? receiverUserData,
     String text,

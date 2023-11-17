@@ -52,7 +52,7 @@ class Message {
       isSeen: map['isSeen'] as bool,
       repliedMessage: map['repliedMessage'] as String,
       repliedTo: map['repliedTo'] as String,
-      repliedMessageType: (map['repliedMessageType'] as String).toEnum(),
+      repliedMessageType: (map['repliedMessageType'] as String).toEnum(), 
     );
   }
 }

@@ -10,7 +10,6 @@ import 'package:uuid/uuid.dart';
 import 'package:watinsup/common/repositories/common_firebase_repository.dart';
 import 'package:watinsup/common/utils/utils.dart';
 import 'package:watinsup/models/group.dart';
-import 'package:watinsup/utils/time_format.dart';
 
 final groupRepositoryProvider = Provider((ref) => GroupRepository(
     auth: FirebaseAuth.instance,
